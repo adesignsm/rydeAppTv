@@ -128,56 +128,83 @@ export default function App() {
   const handleStatusUpdate = (status) => {
     if (status.uri.indexOf('energize') !== -1 && status.didJustFinish) {
       setShowEnergizeVideo(false);
+      console.log('energize playing');
       console.log(status.uri)
     } else if (status.uri.indexOf('focus') !== -1 && status.didJustFinish) {
       setShowFocusVideo(false);
+      console.log('focus playing');
       console.log(status.uri)
     } else if (status.uri.indexOf('relax') !== -1 && status.didJustFinish) {
       setShowRelaxVideo(false);
+      console.log('relax playing');
       console.log(status.uri)
     }
   }
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image source={ENERGIZE_GRAPHIC} style={isTvOne ? styles.imageVisible : styles.imageHidden}/>
-      <Image source={FOCUS_GRAPHIC} style={isTvTwo ? styles.imageVisible : styles.imageHidden}/>
-      <Image source={RELAX_GRAPHIC} style={isTvThree ? styles.imageVisible : styles.imageHidden}/>
+      <Image source={ENERGIZE_GRAPHIC} style={isTvOne && !showEnergizeVideo ? styles.imageVisible : styles.imageHidden}/>
+      <Image source={FOCUS_GRAPHIC} style={isTvTwo && !showFocusVideo ? styles.imageVisible : styles.imageHidden}/>
+      <Image source={RELAX_GRAPHIC} style={isTvThree && !showRelaxVideo ? styles.imageVisible : styles.imageHidden}/>
         {
           showEnergizeVideo && isTvOne && 
           <Video 
             id='energize-video'
-            style={isTvOne && styles.videoHidden} 
+            style={isTvOne && styles.videoVisible} 
             source={ENERGIZE}
             useNativeControls={false}
             resizeMode={ResizeMode.CONTAIN} 
             shouldPlay={showEnergizeVideo}
             volume={tvVolume}
             onPlaybackStatusUpdate={(status) => handleStatusUpdate(status)}
+            usePoster={true}
+            posterSource={ENERGIZE_GRAPHIC}
+            posterStyle={{
+              height: '100%',
+              width: '100%',
+              resizeMode: 'contain',
+              transform: [{scaleX: 1.03}, {scaleY: 0.91}]
+            }}
           />
         }
         {
           showFocusVideo && isTvTwo && 
           <Video 
-            style={isTvTwo && styles.videoHidden} 
+            style={isTvTwo && styles.videoVisible} 
             source={FOCUS} 
             useNativeControls={false} 
             resizeMode={ResizeMode.CONTAIN}
             shouldPlay={showFocusVideo}
             volume={tvVolume}
-            // onPlaybackStatusUpdate={(status) => handleStatusUpdate(status)}
+            onPlaybackStatusUpdate={(status) => handleStatusUpdate(status)}
+            usePoster={true}
+            posterSource={FOCUS_GRAPHIC}
+            posterStyle={{
+              height: '100%',
+              width: '100%',
+              resizeMode: 'contain',
+              transform: [{scaleX: 1.03}, {scaleY: 0.91}]
+            }}
           />
         }
         {
           showRelaxVideo && isTvThree &&
           <Video 
-            style={isTvThree && styles.videoHidden} 
+            style={isTvThree && styles.videoVisible} 
             source={RELAX} 
             useNativeControls={false} 
             resizeMode={ResizeMode.CONTAIN} 
             shouldPlay={showRelaxVideo}
             volume={tvVolume}
-            // onPlaybackStatusUpdate={(status) => handleStatusUpdate(status)}
+            onPlaybackStatusUpdate={(status) => handleStatusUpdate(status)}
+            usePoster={true}
+            posterSource={RELAX_GRAPHIC}
+            posterStyle={{
+              height: '100%',
+              width: '100%',
+              resizeMode: 'contain',
+              transform: [{scaleX: 1.03}, {scaleY: 0.91}]
+            }}
           />
         }
     </SafeAreaView>
@@ -196,12 +223,12 @@ const styles = StyleSheet.create({
   videoVisible: {
     width: '100%',
     height: '100%',
-    transform: [{rotate: '-90deg'}, {scale: 1.7}],
+    transform: [{rotate: '-90deg'}, {scaleX: 1.7}, {scaleY: 0.6}],
   },
   videoHidden: {
     width: '100%',
     height: '0%',
-    transform: [{rotate: '-90deg'}, {scale: 1.7}],
+    transform: [{rotate: '-90deg'}],
   },
   imageVisible: {
     resizeMode: 'stretch',
