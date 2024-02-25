@@ -1,0 +1,10 @@
+{
+  "hostType": "lan",
+  "lanType": "ip",
+  "dev": true,
+  "minify": false,
+  "urlRandomness": "1J7LAIY",
+  "https": false,
+  "scheme": "exp+rydeapptv2",
+  "devClient": false
+}
